@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  db:
+    # Defines a name for your container rather than having docker create a random one for you
+    container_name: mongodb_local
+    # Defines environment values to pass into the container.
+    # The ${} values are being provided by the .env file
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    # The image from the docker repository to use when creating this container
+    # Standard name:version format
+    image: mongo:4.4.4
+    # Defines the ports to bind the container to
+    # HOST_MACHINE:CONTAINER
+    ports:
+      - 27017:27017
+    # Will always attempt to restart the container if it stops for any reason
+    restart: always
+    # Mounts the internal /data/db directory from within the container to the /db/data directory on the host machine
+    # This allows us to start, stop, delete, and re-create the container and retain our information.
+    volumes:
+      - ./db/data:/data/db
